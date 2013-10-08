@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Just Counter</string>
+    <string name="menu_settings">Set counter to 0</string>
+    <string name="options">Options</string>
+    <string name="startfrom">Set start number</string>
+    <string name="zero">0</string>
+    <string name="general">Counter Settings</string>
+
+</resources>
