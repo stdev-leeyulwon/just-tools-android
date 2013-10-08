@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Just Matrix</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="a11">Value a₁₁ is missing.</string>
+    <string name="a12">Value a₁₂ is missing.</string>
+    <string name="a21">Value a₂₁ is missing.</string>
+    <string name="a22">Value a₂₂ is missing.</string>
+    <string name="b11">Value b₁₁ is missing.</string>
+    <string name="b12">Value b₁₂ is missing.</string>
+    <string name="b21">Value b₂₁ is missing.</string>
+    <string name="b22">Value b₂₂ is missing.</string>
+
+</resources>
