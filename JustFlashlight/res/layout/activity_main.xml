@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#076d7d"
+    tools:context=".Main" >
+    
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:onClick="flashToggle"
+        android:src="@drawable/flight" />
+
+    <SeekBar
+        android:id="@+id/seekBar2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/checkBox1"
+        android:layout_toLeftOf="@+id/textView3"
+        android:layout_toRightOf="@+id/checkBox1"
+        android:progress="50"
+        android:progressDrawable="@drawable/scrubber_progress_horizontal_holo_dark"
+        android:thumb="@drawable/scrubber_control_normal_holo" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/checkBox1"
+        android:layout_alignBottom="@+id/checkBox1"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="18dp"
+        android:gravity="right"
+        android:minWidth="50dp"
+        android:text="50ms"
+        android:textColor="#ffffff" />
+
+    <CheckBox
+        android:id="@+id/checkBox1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="21dp"
+        android:layout_marginLeft="18dp"
+        android:text="Blink"
+        android:textColor="#ffffff" />
+
+    
+
+</RelativeLayout>
