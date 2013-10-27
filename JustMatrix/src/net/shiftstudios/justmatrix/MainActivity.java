@@ -1,9 +1,5 @@
 package net.shiftstudios.justmatrix;
 
-import com.google.ads.AdRequest;
-import com.google.ads.AdSize;
-import com.google.ads.AdView;
-
 import net.shiftstudios.justmatrix.MainActivity;
 import net.shiftstudios.justmatrix.R;
 import android.os.Bundle;
@@ -18,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-	private AdView adView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,13 +21,10 @@ public class MainActivity extends Activity {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
 		
-	    adView = new AdView(this, AdSize.BANNER,  "a1512c409a83cb3");
 	    RelativeLayout layout = (RelativeLayout)findViewById(R.id.layout);
 	    RelativeLayout.LayoutParams adsParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 	    adsParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 	    adsParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-	    layout.addView(adView, adsParams);
-	    adView.loadAd(new AdRequest());
 
 		
 		addListenerOnButton();
