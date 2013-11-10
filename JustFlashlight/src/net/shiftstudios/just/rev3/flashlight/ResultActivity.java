@@ -1,4 +1,4 @@
-package com.shiftpsh.jf;
+package net.shiftstudios.just.rev3.flashlight;
 
 import android.hardware.Camera;
 import android.os.Bundle;

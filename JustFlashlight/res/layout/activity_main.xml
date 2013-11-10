@@ -2,25 +2,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#076d7d"
+    android:background="#222222"
     tools:context=".Main" >
-    
+
+    <!-- #076d7d -->
+
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
         android:onClick="flashToggle"
-        android:src="@drawable/flight" />
+        android:paddingLeft="100dp"
+        android:paddingRight="100dp"
+        android:paddingTop="100dp"
+        android:scaleType="center"
+        android:src="@drawable/button_glow" />
 
     <SeekBar
+        android:layout_marginTop = "50dp"
         android:id="@+id/seekBar2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/checkBox1"
-        android:layout_toLeftOf="@+id/textView3"
-        android:layout_toRightOf="@+id/checkBox1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:padding="16dp"
         android:progress="50"
         android:progressDrawable="@drawable/scrubber_progress_horizontal_holo_dark"
         android:thumb="@drawable/scrubber_control_normal_holo" />
@@ -29,12 +36,11 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/checkBox1"
-        android:layout_alignBottom="@+id/checkBox1"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="18dp"
+        android:layout_below="@+id/seekBar2"
         android:gravity="right"
         android:minWidth="50dp"
+        android:paddingRight="16dp"
         android:text="50ms"
         android:textColor="#ffffff" />
 
@@ -42,13 +48,21 @@
         android:id="@+id/checkBox1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignBaseline="@+id/textView3"
+        android:layout_alignBottom="@+id/textView3"
         android:layout_alignParentLeft="true"
-        android:layout_marginBottom="21dp"
-        android:layout_marginLeft="18dp"
-        android:text="Blink"
+        android:layout_marginLeft="16dp"
+        android:text="@string/blink"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#ffffff" />
 
-    
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="88dp"
+        android:text="ON"
+        android:textSize="75sp" />
 
 </RelativeLayout>

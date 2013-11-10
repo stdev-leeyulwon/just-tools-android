@@ -2,10 +2,12 @@
 <resources>
 
     <string name="app_name">Just Flashlight</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="title_activity_result"> </string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="noti_top">Flashlight is still on.</string>
+    <string name="noti_bottom">Click here to disable</string>
+    <string name="on">ON</string>
+    <string name="off">OFF</string>
+    <string name="blink">Blink</string>
+    <string name="contact">Contact us</string>
+    <string name="about">About</string>
 
 </resources>

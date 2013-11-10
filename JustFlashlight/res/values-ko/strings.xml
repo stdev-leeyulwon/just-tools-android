@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Just Flashlight</string>
+    <string name="noti_top">플래시라이트가 계속 켜져 있습니다.</string>
+    <string name="noti_bottom">여기를 클릭해서 끄세요.</string>
+    <string name="on">켜짐</string>
+    <string name="off">꺼짐</string>
+    <string name="blink">깜빡임</string>
+    <string name="contact">문의하기...</string>
+    <string name="about">정보</string>
+
+</resources>
