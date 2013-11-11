@@ -20,13 +20,20 @@
         android:scaleType="center"
         android:src="@drawable/button_glow" />
 
+    <SurfaceView
+        android:id="@+id/PREVIEW"
+        android:layout_width="1dip"
+        android:layout_height="1dip"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true" />
+
     <SeekBar
-        android:layout_marginTop = "50dp"
         android:id="@+id/seekBar2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="50dp"
         android:padding="16dp"
         android:progress="50"
         android:progressDrawable="@drawable/scrubber_progress_horizontal_holo_dark"

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.shiftstudios.just.rev3.flashlight"
-    android:versionCode="11"
-    android:versionName="3.0.0" >
+    android:versionCode="12"
+    android:versionName="3.1.0" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -37,6 +37,21 @@
             android:name="net.shiftstudios.just.rev3.flashlight.AboutActivity"
             android:label="@string/app_name" >
         </activity>
+
+        <receiver android:name="net.shiftstudios.just.rev3.flashlight.FlashlightWidget" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/new_app_widget_info" />
+        </receiver>
+        <receiver
+            android:name="net.shiftstudios.just.rev3.flashlight.FlashlightWidgetReceiver"
+            android:enabled="true"
+            android:exported="true" >
+        </receiver>
     </application>
 
     <permission

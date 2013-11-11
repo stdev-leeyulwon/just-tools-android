@@ -1,5 +1,6 @@
 package net.shiftstudios.just.rev3.flashlight;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 
 import android.app.ActionBar;
@@ -10,6 +11,9 @@ import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -18,6 +22,8 @@ import android.hardware.Camera.Parameters;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.CheckBox;
@@ -26,13 +32,13 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-public class Main extends Activity {
+public class Main extends Activity implements SurfaceHolder.Callback {
 
 	public TextView br;
 	public TextView pr;
 	public boolean isToggled = false;;
 	public boolean flash, isClicked;
-	public Camera cam;
+	public static Camera cam;
 	public boolean on;
 	public Parameters p;
 	public Thread background;
@@ -44,6 +50,9 @@ public class Main extends Activity {
 	public boolean blinkmode = false;
 
 	public TextView uiState;
+
+	SurfaceView preview;
+	SurfaceHolder mHolder;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +69,12 @@ public class Main extends Activity {
 		uiState.setText(R.string.on);
 		uiState.setShadowLayer(20, 0, 0, 0xa0ffffff);
 
+		try {
+			FlashlightWidgetReceiver.camera.release();
+		} catch (Exception e) {
+
+		}
+
 		SeekBar seekbar2 = (SeekBar) findViewById(R.id.seekBar2);
 		seekbar2.setOnSeekBarChangeListener(change2);
 
@@ -69,11 +84,50 @@ public class Main extends Activity {
 
 		flash = getPackageManager().hasSystemFeature(
 				PackageManager.FEATURE_CAMERA_FLASH);
+
+		preview = (SurfaceView) findViewById(R.id.PREVIEW);
+		mHolder = preview.getHolder();
+		mHolder.addCallback(this);
 		cam = Camera.open();
+		try {
+			cam.setPreviewDisplay(mHolder);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		blinkDelay = 50; // Delay in ms
 
 		flashToggle(null);
+
+		getSharedPreferences("prefs", 0)
+				.registerOnSharedPreferenceChangeListener(
+						new OnSharedPreferenceChangeListener() {
+
+							@Override
+							public void onSharedPreferenceChanged(
+									SharedPreferences sharedPreferences,
+									String key) {
+								boolean b = sharedPreferences.getBoolean(
+										"state", false) == on;
+
+								if (!b) {
+									flashToggle(null);
+								}
+							}
+						});
+	}
+
+	public void onResume() {
+		super.onResume();
+		try {
+			FlashlightWidgetReceiver.camera.release();
+			cam = Camera.open();
+			cam.setPreviewDisplay(mHolder);
+		} catch (Exception e) {
+
+		}
+		NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		mNotificationManager.cancel(1);
 	}
 
 	public void flashToggle(View v) {
@@ -88,6 +142,7 @@ public class Main extends Activity {
 			uiState.setText(R.string.off);
 			uiState.setShadowLayer(10, 0, 0, 0x00ffffff);
 			on = false;
+			saveToSharedPrefs();
 			blinkmode = false;
 
 			myString = "11";
@@ -113,13 +168,16 @@ public class Main extends Activity {
 
 						for (int i = 0; blinkmode; i++) {
 							if (myString.charAt(i % 2) == '0') {
-								p.setFlashMode(Parameters.FLASH_MODE_TORCH);
+								p.setFlashMode(blinkmode ? Parameters.FLASH_MODE_TORCH
+										: Parameters.FLASH_MODE_OFF);
 								runOnUiThread(new Runnable() {
 									@Override
 									public void run() {
-										uiState.setText(R.string.blink);
+										uiState.setText(blinkmode ? R.string.blink
+												: R.string.off);
 										uiState.setShadowLayer(20, 0, 0,
-												0xa0ffffff);
+												blinkmode ? 0xa0ffffff
+														: 0x0000000);
 									}
 								});
 							} else {
@@ -127,7 +185,8 @@ public class Main extends Activity {
 								runOnUiThread(new Runnable() {
 									@Override
 									public void run() {
-										uiState.setText(R.string.blink);
+										uiState.setText(blinkmode ? R.string.blink
+												: R.string.off);
 										uiState.setShadowLayer(10, 0, 0,
 												0x00ffffff);
 									}
@@ -158,6 +217,7 @@ public class Main extends Activity {
 			}
 
 			on = true;
+			saveToSharedPrefs();
 
 		}
 	}
@@ -196,22 +256,15 @@ public class Main extends Activity {
 							getResources().getString(R.string.noti_top))
 					.setContentText(
 							getResources().getString(R.string.noti_bottom));
-			// Creates an explicit intent for an Activity in your app
 			Intent resultIntent = new Intent(this, ResultActivity.class);
 
-			// This ensures that navigating backward from the Activity leads out
-			// of
-			// your application to the Home screen.
 			TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-			// Adds the back stack for the Intent (but not the Intent itself)
 			stackBuilder.addParentStack(ResultActivity.class);
-			// Adds the Intent that starts the Activity to the top of the stack
 			stackBuilder.addNextIntent(resultIntent);
 			PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
 					0, PendingIntent.FLAG_UPDATE_CURRENT);
 			mBuilder.setContentIntent(resultPendingIntent);
 			NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-			// mId allows you to update the notification later on.
 			Notification notification = mBuilder.build();
 			notification.flags |= Notification.FLAG_AUTO_CANCEL
 					| Notification.FLAG_NO_CLEAR;
@@ -224,6 +277,11 @@ public class Main extends Activity {
 		super.onDestroy();
 		cam.stopPreview();
 		cam.release();
+		on = false;
+		saveToSharedPrefs();
+
+		NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		mNotificationManager.cancel(1);
 	}
 
 	@Override
@@ -255,7 +313,8 @@ public class Main extends Activity {
 						new String[] { "arom303@gmail.com" });
 				i.putExtra(Intent.EXTRA_SUBJECT,
 						"Just Flashlight " + System.currentTimeMillis());
-				i.putExtra(Intent.EXTRA_TEXT, "App Version: " + version + "\n\n\n");
+				i.putExtra(Intent.EXTRA_TEXT, "App Version: " + version
+						+ "\n\n\n");
 				startActivity(Intent.createChooser(i,
 						"Select email application"));
 				break;
@@ -287,4 +346,34 @@ public class Main extends Activity {
 		}
 	}
 
+	public void saveToSharedPrefs() {
+		SharedPreferences sf = getSharedPreferences("prefs", 0);
+		Editor e = sf.edit();
+		e.putBoolean("state", on);
+		e.commit();
+
+		if (!on) {
+			NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			mNotificationManager.cancel(1);
+		}
+	}
+
+	public void surfaceChanged(SurfaceHolder holder, int format, int width,
+			int height) {
+	}
+
+	public void surfaceCreated(SurfaceHolder holder) {
+		mHolder = holder;
+		mHolder.addCallback(this);
+		try {
+			cam.setPreviewDisplay(mHolder);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void surfaceDestroyed(SurfaceHolder holder) {
+		cam.stopPreview();
+		mHolder = null;
+	}
 }
