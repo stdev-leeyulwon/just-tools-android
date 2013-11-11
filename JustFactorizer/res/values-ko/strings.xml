@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Just Factorizer</string>
-    <string name="contact">Contact us</string>
-    <string name="about">About</string>
+    <string name="contact">문의하기...</string>
+    <string name="about">정보</string>
 
 </resources>
