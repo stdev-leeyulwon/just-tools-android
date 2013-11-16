@@ -1,4 +1,4 @@
-package com.shiftpsh.just.counter;
+package net.shiftstudios.just.rev3.counter;
 
 public class Counter {
     public String title;

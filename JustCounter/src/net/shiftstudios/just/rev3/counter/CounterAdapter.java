@@ -1,4 +1,6 @@
-package com.shiftpsh.just.counter;
+package net.shiftstudios.just.rev3.counter;
+
+import net.shiftstudios.just.rev3.counter.R;
 
 import android.app.Activity;
 import android.content.Context;

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Just Counter</string>
+    <string name="contact">문의하기...</string>
+    <string name="about">정보</string>
+    <string name="reset">키운터 초기화</string>
+    <string name="delete">이 카운터 삭제</string>
+
+</resources>
